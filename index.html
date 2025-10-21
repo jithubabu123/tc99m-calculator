@@ -3,199 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tc-99m Decay Calculator</title>
-    <meta name="description" content="Online calculator for Tc-99m radioactive decay">
+    <title>John Doe | Personal Profile</title>
+    <meta name="description" content="Personal profile page for John Doe showcasing name, portrait, and short bio.">
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
+            color-scheme: light;
+            --bg-gradient: radial-gradient(circle at top left, #cce5ff 0%, rgba(255, 255, 255, 0) 55%),
+                radial-gradient(circle at bottom right, #ffe8cc 0%, rgba(255, 255, 255, 0) 60%);
+            --bg-base: #f4f6fb;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-border: rgba(15, 23, 42, 0.08);
+            --heading: #1d2a44;
+            --text: #4a5568;
+            --accent: #2563eb;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            line-height: 1.6;
             margin: 0;
-            padding: 20px;
-            background: #f5f6fa;
+            font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: clamp(2rem, 4vw, 4rem);
+            background: var(--bg-base);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text);
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        main {
+            width: min(420px, 100%);
+        }
+
+        .profile-card {
+            position: relative;
+            display: grid;
+            gap: 1.75rem;
+            padding: clamp(2rem, 5vw, 3rem);
+            border-radius: 28px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 25px 45px rgba(29, 42, 68, 0.14);
+            overflow: hidden;
+        }
+
+        .profile-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(15, 118, 110, 0.07));
+            mix-blend-mode: screen;
+        }
+
+        figure {
+            margin: 0;
+            display: grid;
+            justify-items: center;
+            gap: 1rem;
+        }
+
+        .portrait {
+            width: clamp(160px, 42vw, 190px);
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 16px 35px rgba(37, 99, 235, 0.25);
+        }
+
+        figcaption {
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(74, 85, 104, 0.7);
+        }
+
+        header {
+            display: grid;
+            gap: 0.75rem;
+            text-align: center;
         }
 
         h1 {
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 30px;
+            margin: 0;
+            font-size: clamp(2.35rem, 5vw, 2.8rem);
+            font-weight: 700;
+            color: var(--heading);
+            letter-spacing: -0.01em;
         }
 
-        .calculator {
-            display: grid;
-            gap: 20px;
+        .tagline {
+            margin: 0 auto;
+            max-width: 28ch;
+            font-size: 1.05rem;
+            line-height: 1.6;
         }
 
-        .input-group {
-            display: grid;
-            gap: 8px;
-        }
-
-        label {
+        .tagline .accent {
+            color: var(--accent);
             font-weight: 600;
-            color: var(--primary);
         }
 
-        input, select {
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
+        .contact {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
         }
 
-        input:focus, select:focus {
-            border-color: var(--secondary);
-            outline: none;
+        .contact a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
         }
 
-        button {
-            background: var(--secondary);
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: transform 0.2s ease;
+        .contact a:hover,
+        .contact a:focus {
+            text-decoration: underline;
         }
 
-        button:hover {
-            transform: translateY(-2px);
-        }
-
-        .result {
-            margin-top: 25px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #666;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
-            
-            input, select {
-                width: 100%;
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Tc-99m Decay Calculator</h1>
-        
-        <div class="calculator">
-            <div class="input-group">
-                <label for="activity">Initial Activity (MBq)</label>
-                <input type="number" id="activity" step="0.1" min="0" placeholder="Enter initial activity">
-            </div>
-
-            <div class="input-group">
-                <label for="time">Elapsed Time</label>
-                <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px;">
-                    <input type="number" id="time" step="0.1" min="0" placeholder="Enter time">
-                    <select id="unit">
-                        <option value="hours">Hours</option>
-                        <option value="minutes">Minutes</option>
-                        <option value="days">Days</option>
-                    </select>
-                </div>
-            </div>
-
-            <button onclick="calculate()">Calculate Decay</button>
-
-            <div class="result" id="result"></div>
-        </div>
-
-        <footer>
-            <p>© 2023 Tc-99m Calculator | Uses 6-hour half-life | Scientific accuracy verified</p>
-        </footer>
-    </div>
-
-    <script>
-        function calculate() {
-            // Get elements
-            const activityElem = document.getElementById('activity');
-            const timeElem = document.getElementById('time');
-            const unitElem = document.getElementById('unit');
-            const resultElem = document.getElementById('result');
-
-            // Reset previous errors
-            [activityElem, timeElem].forEach(el => el.style.borderColor = '#ddd');
-
-            // Validate inputs
-            let valid = true;
-            const initialActivity = parseFloat(activityElem.value);
-            const elapsedTime = parseFloat(timeElem.value);
-            const unit = unitElem.value;
-
-            if (isNaN(initialActivity) || initialActivity <= 0) {
-                activityElem.style.borderColor = '#e74c3c';
-                valid = false;
-            }
-
-            if (isNaN(elapsedTime) || elapsedTime < 0) {
-                timeElem.style.borderColor = '#e74c3c';
-                valid = false;
-            }
-
-            if (!valid) {
-                resultElem.innerHTML = `<p style="color: #e74c3c">Please fix the highlighted fields</p>`;
-                return;
-            }
-
-            // Convert time to hours
-            let hours = elapsedTime;
-            switch(unit) {
-                case 'minutes': hours /= 60; break;
-                case 'days': hours *= 24; break;
-            }
-
-            // Calculate decay
-            const halfLife = 6;
-            const decayConstant = Math.LN2 / halfLife;
-            const remainingActivity = initialActivity * Math.exp(-decayConstant * hours);
-            const percentage = (remainingActivity / initialActivity) * 100;
-
-            // Display results
-            resultElem.innerHTML = `
-                <h3>Results</h3>
-                <p>Initial Activity: <strong>${initialActivity.toFixed(2)} MBq</strong></p>
-                <p>Elapsed Time: <strong>${elapsedTime.toFixed(2)} ${unit}</strong></p>
-                <hr>
-                <p style="color: ${percentage < 50 ? '#e74c3c' : '#27ae60'}; font-size: 1.2em">
-                    Remaining Activity: <strong>${remainingActivity.toFixed(2)} MBq</strong><br>
-                    Percentage Remaining: <strong>${percentage.toFixed(2)}%</strong>
-                </p>
-            `;
-        }
-    </script>
+    <main aria-labelledby="profile-name">
+        <article class="profile-card">
+            <figure>
+                <img class="portrait" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=400&q=80" alt="Portrait of John Doe smiling in front of a neutral background" loading="lazy">
+                <figcaption>Portrait</figcaption>
+            </figure>
+            <header>
+                <h1 id="profile-name">John Doe</h1>
+                <p class="tagline">Creative technologist, educator, and lifelong learner crafting <span class="accent">human-centered digital experiences</span>.</p>
+            </header>
+            <nav class="contact" aria-label="Contact links">
+                <a href="mailto:john.doe@example.com">Email</a>
+                <a href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+            </nav>
+        </article>
+    </main>
 </body>
 </html>
